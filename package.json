@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"tsc src/client/client.ts --watch --outDir public/dist\" \"tsx watch src/server.ts\"",
+    "build-client": "tsc --project src/client/tsconfig.json && esbuild dist/client.js --bundle --outfile=public/dist/client.js",
+    "start": "concurrently \"tsc --watch --project src/client/tsconfig.json && esbuild dist/client.js --bundle --outfile=public/dist/client.js --watch\" \"tsx watch src/server.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Paul Wooten",
@@ -12,6 +13,7 @@
   "devDependencies": {
     "@types/express": "^5.0.3",
     "concurrently": "^9.1.2",
+    "esbuild": "^0.25.5",
     "tsx": "^4.20.3"
   },
   "dependencies": {
