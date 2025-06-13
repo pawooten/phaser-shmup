@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "tsx watch src/server.ts",
+    "start": "concurrently \"tsc src/client.ts --watch --outDir public/dist\" \"tsx watch src/server.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Paul Wooten",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/express": "^5.0.3",
+    "concurrently": "^9.1.2",
     "tsx": "^4.20.3"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "typescript": "^5.8.3"
   }
 }
