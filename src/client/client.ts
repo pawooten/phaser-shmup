@@ -1,2 +1,2 @@
-import { exampleGame } from "./phaser-example";
-export { exampleGame };
+import { phaserGame } from "./phaser-config";
+export { phaserGame };
