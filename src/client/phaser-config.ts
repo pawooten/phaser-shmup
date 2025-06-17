@@ -3,21 +3,17 @@ type SceneCreateCallback = Phaser.Types.Scenes.SceneCreateCallback;
 type ScenePreloadCallback = Phaser.Types.Scenes.ScenePreloadCallback;
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
 type GameConfig = Phaser.Types.Core.GameConfig;
-type StaticGroup = Phaser.Physics.Arcade.StaticGroup;
 type Sprite = Phaser.Physics.Arcade.Sprite;
 type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys;
 
 let ship: Sprite | undefined;
-let score = 0;
-let scoreText: Phaser.GameObjects.Text | undefined;
+let shipBody: Phaser.Physics.Arcade.Body | undefined;
 let cursorKeys: CursorKeys | undefined;
 const create: SceneCreateCallback = function () {
     this.add.image(400, 300, 'sky');
-    const textStyle: Phaser.Types.GameObjects.Text.TextStyle = { font: '32px Arial', color: '#ffffff' };
-    scoreText = this.add.text(16, 16, 'Score: 0', textStyle);
 
     ship = this.physics.add.sprite(400, 300, 'ship');
-    const shipBody = ship.body as Phaser.Physics.Arcade.Body;
+    shipBody = ship.body as Phaser.Physics.Arcade.Body;
     shipBody.allowGravity = false;
     ship.setCollideWorldBounds(true);
     ship.setBounce(0.2);
@@ -50,19 +46,20 @@ const preload: ScenePreloadCallback = function () {
         { frameWidth: 32, frameHeight: 32 });
 };
 const update: SceneUpdateCallback = function () {
-    if (!ship || !cursorKeys) {
+    if (!ship || !shipBody || !cursorKeys) {
         return;
     }
 
     if (cursorKeys.left.isDown) {
         ship.anims.play('ship-left', true);
+        shipBody.setVelocityX(-160);
         return;
     }
     if (cursorKeys.right.isDown) {
         ship.anims.play('ship-right', true);
+        shipBody.setVelocityX(160);
         return;
     }
-
     ship.anims.play('ship');
 };
 const phaserConfig: GameConfig = {
