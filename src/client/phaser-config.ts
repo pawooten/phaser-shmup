@@ -8,6 +8,7 @@ type Sprite = Phaser.Physics.Arcade.Sprite;
 type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys;
 let platforms: StaticGroup | undefined;
 let player: Sprite | undefined;
+let stars: Phaser.Physics.Arcade.Group | undefined;
 let cursorKeys: CursorKeys | undefined;
 const create: SceneCreateCallback = function () {
     this.add.image(400, 300, 'sky');
@@ -18,6 +19,19 @@ const create: SceneCreateCallback = function () {
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
+
+    stars = this.physics.add.group({
+        key: 'star',
+        repeat: 11,
+        setXY: { x: 12, y: 0, stepX: 70 }
+    });
+
+    stars.children.iterate(function (child) {
+        const gameObject = child as Sprite;
+        gameObject.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+        return true;
+    });
+
     player = this.physics.add.sprite(100, 450, 'dude');
 
     player.setBounce(0.2);
@@ -26,6 +40,11 @@ const create: SceneCreateCallback = function () {
     playerBody.setGravityY(300);
 
     this.physics.add.collider(player, platforms);
+    this.physics.add.collider(stars, platforms);
+    this.physics.add.overlap(player, stars, function (player, star) {
+        const sprite = star as Sprite;
+        sprite.disableBody(true, true);
+    });
 
     this.anims.create({
         key: 'left',
