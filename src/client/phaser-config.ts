@@ -9,9 +9,13 @@ type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys;
 let platforms: StaticGroup | undefined;
 let player: Sprite | undefined;
 let stars: Phaser.Physics.Arcade.Group | undefined;
+let score = 0;
+let scoreText: Phaser.GameObjects.Text | undefined;
 let cursorKeys: CursorKeys | undefined;
 const create: SceneCreateCallback = function () {
     this.add.image(400, 300, 'sky');
+    const textStyle: Phaser.Types.GameObjects.Text.TextStyle = { font: '32px Arial', color: '#ffffff' };
+    scoreText = this.add.text(16, 16, 'Score: 0', textStyle);
     platforms = this.physics.add.staticGroup();
 
     platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -44,6 +48,8 @@ const create: SceneCreateCallback = function () {
     this.physics.add.overlap(player, stars, function (player, star) {
         const sprite = star as Sprite;
         sprite.disableBody(true, true);
+        score += 10;
+        scoreText?.setText('Score: ' + score);
     });
 
     this.anims.create({
