@@ -7,6 +7,7 @@ type StaticGroup = Phaser.Physics.Arcade.StaticGroup;
 type Sprite = Phaser.Physics.Arcade.Sprite;
 type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys;
 let platforms: StaticGroup | undefined;
+let bombs: Phaser.Physics.Arcade.Group | undefined;
 let player: Sprite | undefined;
 let stars: Phaser.Physics.Arcade.Group | undefined;
 let score = 0;
@@ -35,7 +36,6 @@ const create: SceneCreateCallback = function () {
         gameObject.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
         return true;
     });
-
     player = this.physics.add.sprite(100, 450, 'dude');
 
     player.setBounce(0.2);
@@ -46,11 +46,42 @@ const create: SceneCreateCallback = function () {
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(stars, platforms);
     this.physics.add.overlap(player, stars, function (player, star) {
+        const playerSprite = player as Sprite;
         const sprite = star as Sprite;
         sprite.disableBody(true, true);
         score += 10;
         scoreText?.setText('Score: ' + score);
+
+        if (stars?.countActive(true) === 0) {
+            for (const star of stars?.getChildren() || []) {
+                const sprite = star as Sprite;
+                sprite.enableBody(true, sprite.x, 0, true, true);
+            }
+
+            const x = (playerSprite.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+
+            const bomb = bombs?.create(x, 16, 'bomb');
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 2);
+
+        }
     });
+
+    bombs = this.physics.add.group();
+
+    this.physics.add.collider(bombs, platforms);
+
+    this.physics.add.collider(player, bombs, (player, bomb) => {
+        this.physics.pause();
+        const playerSprite = player as Sprite;
+        playerSprite.setTint(0xff0000);
+
+        playerSprite.anims.play('turn');
+
+        // gameOver = true;
+        scoreText?.setText('Game Over! Final Score: ' + score);
+    }, () => { }, this);
 
     this.anims.create({
         key: 'left',
