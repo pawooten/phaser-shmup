@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build-client": "tsc --project src/client/tsconfig.json && esbuild dist/client.js --bundle --outfile=public/dist/client.js",
-    "start": "concurrently \"tsc --watch --project src/client/tsconfig.json\"  \"esbuild dist/client.js --bundle --outfile=public/dist/client.js --watch\" \"tsx watch src/server.ts\"",
+    "build-client": "tsc --project src/client/tsconfig.json && esbuild dist/client.js --bundle --outfile=public/dist/client.min.js --minify",
+    "start": "concurrently \"tsc --watch --project src/client/tsconfig.json\"  \"esbuild dist/client.js --bundle --outfile=public/dist/client.min.js --minify --watch\" \"tsx watch src/server.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Paul Wooten",
