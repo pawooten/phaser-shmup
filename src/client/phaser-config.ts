@@ -2,37 +2,11 @@ import Phaser from 'phaser';
 import { Constants } from './constants';
 import { getCreate } from './create';
 import { preload } from './preload';
-type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
+import { getUpdate } from './update';
 type GameConfig = Phaser.Types.Core.GameConfig;
 
 const createObjects = getCreate();
-
-const update: SceneUpdateCallback = function () {
-    if (!createObjects.ship || !createObjects.shipBody || !createObjects.cursorKeys) {
-        return;
-    }
-
-    if (createObjects.cursorKeys.left.isDown) {
-        createObjects.ship.anims.play('ship-left', true);
-        createObjects.shipBody.setVelocityX(-160);
-        return;
-    }
-    if (createObjects.cursorKeys.right.isDown) {
-        createObjects.ship.anims.play('ship-right', true);
-        createObjects.shipBody.setVelocityX(160);
-        return;
-    }
-    if (createObjects.cursorKeys.up.isDown) {
-        createObjects.shipBody.setVelocityY(-160);
-        return;
-    }
-    if (createObjects.cursorKeys.down.isDown) {
-        createObjects.shipBody.setVelocityY(160);
-        return;
-    }
-    createObjects.shipBody.setVelocity(0, 0);
-    createObjects.ship.anims.play('ship');
-};
+const update = getUpdate(createObjects);
 const phaserConfig: GameConfig = {
     type: Phaser.AUTO,
     width: Constants.Dimensions.Game.width,
