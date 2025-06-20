@@ -1,0 +1,48 @@
+import { Constants } from "./constants";
+import { initializeShip, initializeTriangles } from "./create-helper";
+
+type SceneCreateCallback = Phaser.Types.Scenes.SceneCreateCallback;
+export const getCreate = () => {
+    let ship: Phaser.Physics.Arcade.Sprite | undefined;
+    let shipBody: Phaser.Physics.Arcade.Body | undefined;
+    let cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
+    const create: SceneCreateCallback = function () {
+        this.add.image(Constants.Position.Center.x, Constants.Position.Center.y, 'sky');
+
+        ship = this.physics.add.sprite(Constants.Position.ShipStart.x, Constants.Position.ShipStart.y, 'ship');
+        shipBody = initializeShip(ship);
+        if (!shipBody) {
+            console.error('Ship body initialization failed');
+            return;
+        }
+        this.anims.create({
+            key: 'ship-left',
+            frames: this.anims.generateFrameNumbers('ship', { start: 2, end: 2 }),
+            frameRate: Constants.FrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'ship-right',
+            frames: this.anims.generateFrameNumbers('ship', { start: 0, end: 0 }),
+            frameRate: Constants.FrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'ship',
+            frames: this.anims.generateFrameNumbers('ship', { start: 1, end: 1 }),
+            frameRate: Constants.FrameRate,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'triangle-large',
+            frames: this.anims.generateFrameNumbers('triangle-large', { start: 0, end: 3 }),
+            frameRate: 6,
+            repeat: -1
+        });
+        initializeTriangles(this, 10);
+        cursorKeys = this?.input?.keyboard?.createCursorKeys();
+    };
+    return {
+        create, ship, shipBody, cursorKeys
+    };
+}
