@@ -1,30 +1,42 @@
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
 export const getUpdate = (createObjects: any) => {
     const update: SceneUpdateCallback = function () {
-        if (!createObjects.ship || !createObjects.shipBody || !createObjects.cursorKeys) {
+        const ship = createObjects.shipFn();
+        if (!ship) {
+            console.error('Ship is not defined in update');
+            return;
+        }
+        const shipBody = createObjects.shipBodyFn();
+        if (!shipBody) {
+            console.error('Ship body is not defined in update');
+            return;
+        }
+        const cursorKeys = createObjects.cursorKeysFn();
+        if (!cursorKeys) {
+            console.error('Cursor keys are not defined in update');
             return;
         }
 
-        if (createObjects.cursorKeys.left.isDown) {
-            createObjects.ship.anims.play('ship-left', true);
-            createObjects.shipBody.setVelocityX(-160);
+        if (cursorKeys.left.isDown) {
+            ship.anims.play('ship-left', true);
+            shipBody.setVelocityX(-160);
             return;
         }
-        if (createObjects.cursorKeys.right.isDown) {
-            createObjects.ship.anims.play('ship-right', true);
-            createObjects.shipBody.setVelocityX(160);
+        if (cursorKeys.right.isDown) {
+            ship.anims.play('ship-right', true);
+            shipBody.setVelocityX(160);
             return;
         }
-        if (createObjects.cursorKeys.up.isDown) {
-            createObjects.shipBody.setVelocityY(-160);
+        if (cursorKeys.up.isDown) {
+            shipBody.setVelocityY(-160);
             return;
         }
-        if (createObjects.cursorKeys.down.isDown) {
-            createObjects.shipBody.setVelocityY(160);
+        if (cursorKeys.down.isDown) {
+            shipBody.setVelocityY(160);
             return;
         }
-        createObjects.shipBody.setVelocity(0, 0);
-        createObjects.ship.anims.play('ship');
+        shipBody.setVelocity(0, 0);
+        ship.anims.play('ship');
     };
     return update;
 }

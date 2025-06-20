@@ -6,6 +6,9 @@ export const getCreate = () => {
     let ship: Phaser.Physics.Arcade.Sprite | undefined;
     let shipBody: Phaser.Physics.Arcade.Body | undefined;
     let cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
+    const shipFn = () => ship;
+    const shipBodyFn = () => shipBody;
+    const cursorKeysFn = () => cursorKeys;
     const create: SceneCreateCallback = function () {
         this.add.image(Constants.Position.Center.x, Constants.Position.Center.y, 'sky');
 
@@ -45,6 +48,6 @@ export const getCreate = () => {
         cursorKeys = this?.input?.keyboard?.createCursorKeys();
     };
     return {
-        create, ship, shipBody, cursorKeys
+        create, shipFn, shipBodyFn, cursorKeysFn
     };
 }
