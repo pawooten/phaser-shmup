@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { Constants } from './constants';
-import { initializeShip } from './create-helper';
+import { initializeShip, initializeTriangles } from './create-helper';
 type SceneCreateCallback = Phaser.Types.Scenes.SceneCreateCallback;
 type ScenePreloadCallback = Phaser.Types.Scenes.ScenePreloadCallback;
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
@@ -38,14 +38,21 @@ const create: SceneCreateCallback = function () {
         frameRate: Constants.FrameRate,
         repeat: -1
     });
-
+    this.anims.create({
+        key: 'triangle-large',
+        frames: this.anims.generateFrameNumbers('triangle-large', { start: 0, end: 3 }),
+        frameRate: 6,
+        repeat: -1
+    });
+    initializeTriangles(this, 10);
     cursorKeys = this?.input?.keyboard?.createCursorKeys();
 };
 const preload: ScenePreloadCallback = function () {
     this.load.image('sky', 'assets/gradient-sky.png');
-    this.load.image('star', 'assets/star.png');
     this.load.spritesheet('ship', 'assets/ship.png',
         { frameWidth: Constants.Dimensions.Ship.width, frameHeight: Constants.Dimensions.Ship.height });
+    this.load.spritesheet('triangle-large', 'assets/triangle.png',
+        { frameWidth: Constants.Dimensions.TriangleLarge.width, frameHeight: Constants.Dimensions.TriangleLarge.height });
 };
 const update: SceneUpdateCallback = function () {
     if (!ship || !shipBody || !cursorKeys) {
