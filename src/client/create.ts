@@ -1,4 +1,4 @@
-import { Constants } from "./constants";
+import { Constants, TriangleType } from "./constants";
 import { initializeShip, initializeTriangles } from "./create-helper";
 
 type SceneCreateCallback = Phaser.Types.Scenes.SceneCreateCallback;
@@ -33,12 +33,14 @@ export const getCreate = () => {
             frameRate: Constants.FrameRate,
             repeat: -1
         });
-        this.anims.create({
-            key: 'triangle-large',
-            frames: this.anims.generateFrameNumbers('triangle-large', { start: 0, end: 3 }),
-            frameRate: 6,
-            repeat: -1
-        });
+        for (const triangleType of Object.values(TriangleType)) {
+            this.anims.create({
+                key: triangleType,
+                frames: this.anims.generateFrameNumbers(triangleType, { start: 0, end: 3 }),
+                frameRate: Constants.FrameRate,
+                repeat: -1
+            });
+        }
         initializeTriangles(this, 10);
         cursorKeys = this?.input?.keyboard?.createCursorKeys();
     };

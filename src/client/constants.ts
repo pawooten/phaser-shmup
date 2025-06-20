@@ -2,10 +2,9 @@ export const Constants = {
     Dimensions: {
         Game: { width: 800, height: 600 },
         Ship: { width: 32, height: 32 },
-        TriangleSmall: { width: 16, height: 16 },
-        TriangleMedium: { width: 24, height: 24 },
-        TriangleLarge: { width: 32, height: 32 },
+        Triangle: { width: 32, height: 32 }
     },
+    EnemyScale: { small: 0.5, medium: 0.75, large: 1 },
     FrameRate: 20,
     Position: {
         Center: { x: 400, y: 300 },
@@ -14,7 +13,12 @@ export const Constants = {
 };
 
 export enum TriangleType {
-    Small = 'small',
-    Medium = 'medium',
-    Large = 'large',
+    Small = 'triangle-small',
+    Medium = 'triangle-medium',
+    Large = 'triangle-large',
 };
+export const triangleScales = new Map<TriangleType, number>([
+    [TriangleType.Small, Constants.EnemyScale.small],
+    [TriangleType.Medium, Constants.EnemyScale.medium],
+    [TriangleType.Large, Constants.EnemyScale.large],
+]);
