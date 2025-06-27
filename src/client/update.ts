@@ -1,9 +1,9 @@
 import { Constants } from "./constants";
-import { CreateObjects } from "./create";
+import { CursorKeysManager } from "./cursor-keys-manager";
 import { SpriteManager } from "./sprite-manager";
 type Body = Phaser.Physics.Arcade.Body;
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
-export const getUpdate = (createObjects: CreateObjects) => {
+export const getUpdate = () => {
     const update: SceneUpdateCallback = function () {
         const ship = SpriteManager.get(Constants.Images.Ship.Name);
         if (!ship) {
@@ -15,7 +15,7 @@ export const getUpdate = (createObjects: CreateObjects) => {
             console.error(Constants.ErrorMessages.ShipBodyNotDefinedInUpdate);
             return;
         }
-        const cursorKeys = createObjects.cursorKeysFn();
+        const cursorKeys = CursorKeysManager.getCursorKeys();
         if (!cursorKeys) {
             console.error(Constants.ErrorMessages.CursorKeysNotDefinedInUpdate);
             return;

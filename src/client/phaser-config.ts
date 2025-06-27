@@ -5,11 +5,11 @@ import { preload } from './preload';
 import { getUpdate } from './update';
 type GameConfig = Phaser.Types.Core.GameConfig;
 
-const createObjects = getCreate();
-if (!createObjects) {
+const create = getCreate();
+if (!create) {
     throw new Error(Constants.ErrorMessages.CreateObjectsNotDefined);
 }
-const update = getUpdate(createObjects);
+const update = getUpdate();
 const phaserConfig: GameConfig = {
     type: Phaser.AUTO,
     width: Constants.Dimensions.Game.width,
@@ -23,7 +23,7 @@ const phaserConfig: GameConfig = {
     },
     scene: {
         preload,
-        create: createObjects.create,
+        create: create,
         update
     }
 };

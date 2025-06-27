@@ -1,15 +1,13 @@
 import { Constants, TriangleType } from "./constants";
 import { initializeShip, initializeTriangles } from "./create-helper";
+import { CursorKeysManager } from "./cursor-keys-manager";
 import { SpriteManager } from "./sprite-manager";
 
 type SceneCreateCallback = Phaser.Types.Scenes.SceneCreateCallback;
-export const getCreate = (): CreateObjects | undefined => {
+export const getCreate = (): SceneCreateCallback | undefined => {
     let ship: Phaser.Physics.Arcade.Sprite | undefined;
     let shipBody: Phaser.Physics.Arcade.Body | undefined;
     let cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
-    const shipFn = () => ship;
-    const shipBodyFn = () => shipBody;
-    const cursorKeysFn = () => cursorKeys;
     const create: SceneCreateCallback = function () {
         this.add.image(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.Sky.Name);
 
@@ -47,10 +45,13 @@ export const getCreate = (): CreateObjects | undefined => {
         }
         initializeTriangles(this, 10);
         cursorKeys = this?.input?.keyboard?.createCursorKeys();
+        if (!cursorKeys) {
+            console.error(Constants.ErrorMessages.CursorKeysNotDefinedInUpdate);
+            return;
+        }
+        CursorKeysManager.setCursorKeys(cursorKeys);
     };
-    return {
-        create, shipFn, shipBodyFn, cursorKeysFn
-    };
+    return create;
 
     function createShipAnimations(this: Phaser.Scene) {
         this.anims.create({
@@ -72,8 +73,4 @@ export const getCreate = (): CreateObjects | undefined => {
             repeat: Constants.Animation.Loop
         });
     }
-}
-export type CreateObjects = {
-    create: SceneCreateCallback;
-    cursorKeysFn: () => Phaser.Types.Input.Keyboard.CursorKeys | undefined;
 }
