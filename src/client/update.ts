@@ -1,5 +1,6 @@
 import { Constants } from "./constants";
 import { CreateObjects } from "./create";
+import { SpriteManager } from "./sprite-manager";
 
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
 export const getUpdate = (createObjects: CreateObjects) => {
@@ -39,7 +40,14 @@ export const getUpdate = (createObjects: CreateObjects) => {
             return;
         }
         if (cursorKeys.space.isDown) {
-            // Handle space key press for firing laser beam or other actions
+            const sprite = SpriteManager.get(Constants.Images.LaserBeam.Name);
+            if (!sprite) {
+                console.error(Constants.ErrorMessages.SpriteNotFound, Constants.Images.LaserBeam.Name);
+                return;
+            }
+            sprite.setPosition(ship.x, ship.y - 40);
+            const laserBeamBody = sprite.body as Phaser.Physics.Arcade.Body;
+            laserBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
         }
 
         shipBody.setVelocity(0, 0);

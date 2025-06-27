@@ -1,5 +1,6 @@
 import { Constants, TriangleType } from "./constants";
 import { initializeShip, initializeTriangles } from "./create-helper";
+import { SpriteManager } from "./sprite-manager";
 
 type SceneCreateCallback = Phaser.Types.Scenes.SceneCreateCallback;
 export const getCreate = (): CreateObjects | undefined => {
@@ -13,6 +14,7 @@ export const getCreate = (): CreateObjects | undefined => {
         this.add.image(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.Sky.Name);
 
         ship = this.physics.add.sprite(Constants.Position.ShipStart.x, Constants.Position.ShipStart.y, Constants.Images.Ship.Name);
+        SpriteManager.add(Constants.Images.Ship.Name, ship);
         shipBody = initializeShip(ship);
         if (!shipBody) {
             console.error(Constants.ErrorMessages.ShipBodyInitializationFailed);
@@ -22,8 +24,9 @@ export const getCreate = (): CreateObjects | undefined => {
 
         const laserBeamSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.LaserBeam.Name);
         laserBeamSprite.setScale(0.2, 1);
-
         laserBeamSprite.body.setAllowGravity(false);
+        laserBeamSprite.setCollideWorldBounds(true);
+        SpriteManager.add(Constants.Images.LaserBeam.Name, laserBeamSprite);
 
         this.anims.create({
             key: Constants.Animation.Names.LaserBeam,
