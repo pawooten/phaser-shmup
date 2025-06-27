@@ -22,9 +22,12 @@ export const Constants = {
     ErrorMessages: {
         CreateObjectsNotDefined: 'Create objects are not defined',
         ShipBodyInitializationFailed: 'Ship body initialization failed',
+        ShipNotDefinedInUpdate: 'Ship is not defined in update',
+        ShipBodyNotDefinedInUpdate: 'Ship body is not defined in update',
+        CursorKeysNotDefinedInUpdate: 'Cursor keys are not defined in update'
     },
     FrameRate: 20,
-    Physics: { Type: 'arcade', Gravity: { x: 0, y: 10 } },
+    Physics: { Type: 'arcade', Gravity: { x: 0, y: 10 }, Speed: { Ship: 160, LaserBeam: 400 } },
     Images: {
         Sky: { Name: 'sky', Path: 'assets/gradient-sky.png' },
         Ship: { Name: 'ship', Path: 'assets/ship.png' },
