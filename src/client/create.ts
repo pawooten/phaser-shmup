@@ -1,5 +1,5 @@
 import { Constants, TriangleType } from "./constants";
-import { initializeShip, initializeTriangles } from "./create-helper";
+import { initializeTriangles } from "./create-helper";
 import { CursorKeysManager } from "./cursor-keys-manager";
 import { SpriteManager } from "./sprite-manager";
 
