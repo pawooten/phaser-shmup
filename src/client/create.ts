@@ -5,19 +5,11 @@ import { SpriteManager } from "./sprite-manager";
 
 type SceneCreateCallback = Phaser.Types.Scenes.SceneCreateCallback;
 export const getCreate = (): SceneCreateCallback | undefined => {
-    let ship: Phaser.Physics.Arcade.Sprite | undefined;
-    let shipBody: Phaser.Physics.Arcade.Body | undefined;
-    let cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys | undefined;
     const create: SceneCreateCallback = function () {
         this.add.image(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.Sky.Name);
 
-        ship = this.physics.add.sprite(Constants.Position.ShipStart.x, Constants.Position.ShipStart.y, Constants.Images.Ship.Name);
+        const ship = this.physics.add.sprite(Constants.Position.ShipStart.x, Constants.Position.ShipStart.y, Constants.Images.Ship.Name);
         SpriteManager.add(Constants.Images.Ship.Name, ship);
-        shipBody = initializeShip(ship);
-        if (!shipBody) {
-            console.error(Constants.ErrorMessages.ShipBodyInitializationFailed);
-            return;
-        }
         createShipAnimations.call(this);
 
         const laserBeamSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.LaserBeam.Name);
@@ -44,7 +36,7 @@ export const getCreate = (): SceneCreateCallback | undefined => {
             });
         }
         initializeTriangles(this, 10);
-        cursorKeys = this?.input?.keyboard?.createCursorKeys();
+        const cursorKeys = this?.input?.keyboard?.createCursorKeys();
         if (!cursorKeys) {
             console.error(Constants.ErrorMessages.CursorKeysNotDefinedInUpdate);
             return;
