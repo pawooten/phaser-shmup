@@ -51,3 +51,24 @@ export const initializeLaserBeams = (scene: Phaser.Scene) => {
     laserBeamLeftSprite.anims.play(Constants.Animation.Names.LaserBeam);
     laserBeamRightSprite.anims.play(Constants.Animation.Names.LaserBeam);
 }
+
+export const createShipAnimations = (scene: Phaser.Scene) => {
+    scene.anims.create({
+        key: Constants.Animation.Names.Ship.left,
+        frames: scene.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.Two),
+        frameRate: Constants.FrameRate,
+        repeat: Constants.Animation.Loop
+    });
+    scene.anims.create({
+        key: Constants.Animation.Names.Ship.right,
+        frames: scene.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.Zero),
+        frameRate: Constants.FrameRate,
+        repeat: Constants.Animation.Loop
+    });
+    scene.anims.create({
+        key: Constants.Animation.Names.Ship.default,
+        frames: scene.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.One),
+        frameRate: Constants.FrameRate,
+        repeat: Constants.Animation.Loop
+    });
+}

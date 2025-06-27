@@ -1,5 +1,5 @@
 import { Constants, TriangleType } from "./constants";
-import { initializeLaserBeams, initializeTriangles } from "./create-helper";
+import { createShipAnimations, initializeLaserBeams, initializeTriangles } from "./create-helper";
 import { CursorKeysManager } from "./cursor-keys-manager";
 import { SpriteManager } from "./sprite-manager";
 
@@ -10,8 +10,7 @@ export const getCreate = (): SceneCreateCallback | undefined => {
 
         const ship = this.physics.add.sprite(Constants.Position.ShipStart.x, Constants.Position.ShipStart.y, Constants.Images.Ship.Name);
         SpriteManager.add(Constants.Images.Ship.Name, ship);
-        createShipAnimations.call(this);
-
+        createShipAnimations(this);
 
         initializeLaserBeams(this);
         for (const triangleType of Object.values(TriangleType)) {
@@ -31,25 +30,4 @@ export const getCreate = (): SceneCreateCallback | undefined => {
         CursorKeysManager.setCursorKeys(cursorKeys);
     };
     return create;
-
-    function createShipAnimations(this: Phaser.Scene) {
-        this.anims.create({
-            key: Constants.Animation.Names.Ship.left,
-            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.Two),
-            frameRate: Constants.FrameRate,
-            repeat: Constants.Animation.Loop
-        });
-        this.anims.create({
-            key: Constants.Animation.Names.Ship.right,
-            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.Zero),
-            frameRate: Constants.FrameRate,
-            repeat: Constants.Animation.Loop
-        });
-        this.anims.create({
-            key: Constants.Animation.Names.Ship.default,
-            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.One),
-            frameRate: Constants.FrameRate,
-            repeat: Constants.Animation.Loop
-        });
-    }
 }
