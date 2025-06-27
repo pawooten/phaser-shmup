@@ -1,10 +1,11 @@
-const sprites = new Map<string, Phaser.GameObjects.Sprite>();
+type Sprite = Phaser.Physics.Arcade.Sprite;
+const sprites = new Map<string, Sprite | Sprite[]>();
 export const SpriteManager = {
-  add: (key: string, sprite: Phaser.GameObjects.Sprite) => {
+  add: (key: string, sprite: Sprite | Sprite[]) => {
     sprites.set(key, sprite);
   },
-  get: (key: string) => {
-    return sprites.get(key);
+  get: <T extends Sprite | Sprite[]>(key: string) => {
+    return sprites.get(key) as T;
   },
   remove: (key: string) => {
     sprites.delete(key);

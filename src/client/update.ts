@@ -2,10 +2,11 @@ import { Constants } from "./constants";
 import { CursorKeysManager } from "./cursor-keys-manager";
 import { SpriteManager } from "./sprite-manager";
 type Body = Phaser.Physics.Arcade.Body;
+type Sprite = Phaser.Physics.Arcade.Sprite;
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
 export const getUpdate = () => {
     const update: SceneUpdateCallback = function () {
-        const ship = SpriteManager.get(Constants.Images.Ship.Name);
+        const ship = SpriteManager.get<Sprite>(Constants.Images.Ship.Name);
         if (!ship) {
             console.error(Constants.ErrorMessages.ShipNotDefinedInUpdate);
             return;
@@ -40,15 +41,20 @@ export const getUpdate = () => {
             return;
         }
         if (cursorKeys.space.isDown) {
-            const laserBeamSprite = SpriteManager.get(Constants.Images.LaserBeam.Name);
-            if (!laserBeamSprite) {
+            const laserBeamSprites = SpriteManager.get<Sprite[]>(Constants.Images.LaserBeam.Name);
+            if (!laserBeamSprites) {
                 console.error(Constants.ErrorMessages.SpriteNotFound, Constants.Images.LaserBeam.Name);
                 return;
             }
-            laserBeamSprite.setPosition(ship.x, ship.y - Constants.Dimensions.ShipOffset);
-            laserBeamSprite.visible = true;
-            const laserBeamBody = laserBeamSprite.body as Body;
-            laserBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
+            const [leftBeamSprite, rightBeamSprite] = laserBeamSprites;
+            leftBeamSprite.setPosition(ship.x - Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
+            leftBeamSprite.visible = true;
+            const leftBeamBody = leftBeamSprite.body as Body;
+            leftBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
+            rightBeamSprite.setPosition(ship.x + Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
+            rightBeamSprite.visible = true;
+            const rightBeamBody = rightBeamSprite.body as Body;
+            rightBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
         }
 
         shipBody.setVelocity(0, 0);

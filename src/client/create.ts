@@ -12,12 +12,18 @@ export const getCreate = (): SceneCreateCallback | undefined => {
         SpriteManager.add(Constants.Images.Ship.Name, ship);
         createShipAnimations.call(this);
 
-        const laserBeamSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.LaserBeam.Name);
-        laserBeamSprite.setScale(0.2, 1);
-        laserBeamSprite.body.setAllowGravity(false);
-        laserBeamSprite.setCollideWorldBounds(true);
-        laserBeamSprite.visible = false;
-        SpriteManager.add(Constants.Images.LaserBeam.Name, laserBeamSprite);
+        const laserBeamLeftSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.LaserBeam.Name);
+        laserBeamLeftSprite.setScale(0.2, 1);
+        laserBeamLeftSprite.body.setAllowGravity(false);
+        laserBeamLeftSprite.setCollideWorldBounds(true);
+        laserBeamLeftSprite.visible = false;
+
+        const laserBeamRightSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.LaserBeam.Name);
+        laserBeamRightSprite.setScale(0.2, 1);
+        laserBeamRightSprite.body.setAllowGravity(false);
+        laserBeamRightSprite.setCollideWorldBounds(true);
+        laserBeamRightSprite.visible = false;
+        SpriteManager.add(Constants.Images.LaserBeam.Name, [laserBeamLeftSprite, laserBeamRightSprite]);
 
         this.anims.create({
             key: Constants.Animation.Names.LaserBeam,
@@ -25,7 +31,8 @@ export const getCreate = (): SceneCreateCallback | undefined => {
             frameRate: Constants.FrameRate,
             repeat: Constants.Animation.Loop
         });
-        laserBeamSprite.anims.play(Constants.Animation.Names.LaserBeam);
+        laserBeamLeftSprite.anims.play(Constants.Animation.Names.LaserBeam);
+        laserBeamRightSprite.anims.play(Constants.Animation.Names.LaserBeam);
 
         for (const triangleType of Object.values(TriangleType)) {
             this.anims.create({
