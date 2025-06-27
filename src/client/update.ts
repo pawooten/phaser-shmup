@@ -40,13 +40,14 @@ export const getUpdate = (createObjects: CreateObjects) => {
             return;
         }
         if (cursorKeys.space.isDown) {
-            const sprite = SpriteManager.get(Constants.Images.LaserBeam.Name);
-            if (!sprite) {
+            const laserBeamSprite = SpriteManager.get(Constants.Images.LaserBeam.Name);
+            if (!laserBeamSprite) {
                 console.error(Constants.ErrorMessages.SpriteNotFound, Constants.Images.LaserBeam.Name);
                 return;
             }
-            sprite.setPosition(ship.x, ship.y - 40);
-            const laserBeamBody = sprite.body as Phaser.Physics.Arcade.Body;
+            laserBeamSprite.setPosition(ship.x, ship.y - 40);
+            laserBeamSprite.visible = true;
+            const laserBeamBody = laserBeamSprite.body as Phaser.Physics.Arcade.Body;
             laserBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
         }
 

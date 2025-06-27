@@ -26,6 +26,7 @@ export const getCreate = (): CreateObjects | undefined => {
         laserBeamSprite.setScale(0.2, 1);
         laserBeamSprite.body.setAllowGravity(false);
         laserBeamSprite.setCollideWorldBounds(true);
+        laserBeamSprite.visible = false;
         SpriteManager.add(Constants.Images.LaserBeam.Name, laserBeamSprite);
 
         this.anims.create({
