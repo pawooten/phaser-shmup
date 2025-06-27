@@ -1,16 +1,16 @@
 import { Constants } from "./constants";
 import { CreateObjects } from "./create";
 import { SpriteManager } from "./sprite-manager";
-
+type Body = Phaser.Physics.Arcade.Body;
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
 export const getUpdate = (createObjects: CreateObjects) => {
     const update: SceneUpdateCallback = function () {
-        const ship = createObjects.shipFn();
+        const ship = SpriteManager.get(Constants.Images.Ship.Name);
         if (!ship) {
             console.error(Constants.ErrorMessages.ShipNotDefinedInUpdate);
             return;
         }
-        const shipBody = createObjects.shipBodyFn();
+        const shipBody = ship.body as Body;
         if (!shipBody) {
             console.error(Constants.ErrorMessages.ShipBodyNotDefinedInUpdate);
             return;
@@ -47,7 +47,7 @@ export const getUpdate = (createObjects: CreateObjects) => {
             }
             laserBeamSprite.setPosition(ship.x, ship.y - Constants.Dimensions.ShipOffset);
             laserBeamSprite.visible = true;
-            const laserBeamBody = laserBeamSprite.body as Phaser.Physics.Arcade.Body;
+            const laserBeamBody = laserBeamSprite.body as Body;
             laserBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
         }
 
