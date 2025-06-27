@@ -36,6 +36,20 @@ export const getCreate = () => {
             frameRate: Constants.FrameRate,
             repeat: -1
         });
+
+        const laserBeamSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, 'laser-beam');
+        laserBeamSprite.setScale(0.2, 1);
+
+        laserBeamSprite.body.setAllowGravity(false);
+
+        this.anims.create({
+            key: 'laser-beam',
+            frames: this.anims.generateFrameNumbers('laser-beam', { start: 0, end: 3 }),
+            frameRate: Constants.FrameRate,
+            repeat: -1
+        });
+        laserBeamSprite.anims.play('laser-beam');
+
         for (const triangleType of Object.values(TriangleType)) {
             this.anims.create({
                 key: triangleType,
