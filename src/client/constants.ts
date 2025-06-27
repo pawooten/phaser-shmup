@@ -1,4 +1,17 @@
 export const Constants = {
+    Animation: {
+        FrameRanges: { Zero: { start: 0, end: 0 }, One: { start: 1, end: 1 }, Two: { start: 2, end: 2 }, ZeroToThree: { start: 0, end: 3 } },
+        Loop: -1,
+        Names: {
+            Ship: { left: 'ship-left', right: 'ship-right', default: 'ship' },
+            LaserBeam: 'laser-beam',
+            Triangle: {
+                small: 'triangle-small',
+                medium: 'triangle-medium',
+                large: 'triangle-large'
+            }
+        }
+    },
     Dimensions: {
         Game: { width: 800, height: 600 },
         Ship: { width: 32, height: 32 },
@@ -6,7 +19,16 @@ export const Constants = {
         Triangle: { width: 32, height: 32 }
     },
     EnemyScale: { small: 0.5, medium: 0.75, large: 1 },
+    ErrorMessages: {
+        ShipBodyInitializationFailed: 'Ship body initialization failed',
+    },
     FrameRate: 20,
+    Images: {
+        Sky: { Name: 'sky', Path: 'assets/gradient-sky.png' },
+        Ship: { Name: 'ship', Path: 'assets/ship.png' },
+        LaserBeam: { Name: 'laser-beam', Path: 'assets/laser-beam.png' },
+        Triangle: { Name: 'triangle', Path: 'assets/triangle.png' },
+    },
     Position: {
         Center: { x: 400, y: 300 },
         ShipStart: { x: 400, y: 520 },
