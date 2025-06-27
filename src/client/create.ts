@@ -75,7 +75,5 @@ export const getCreate = (): CreateObjects | undefined => {
 }
 export type CreateObjects = {
     create: SceneCreateCallback;
-    shipFn: () => Phaser.Physics.Arcade.Sprite | undefined;
-    shipBodyFn: () => Phaser.Physics.Arcade.Body | undefined;
     cursorKeysFn: () => Phaser.Types.Input.Keyboard.CursorKeys | undefined;
 }
