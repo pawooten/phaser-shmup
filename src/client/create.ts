@@ -18,24 +18,7 @@ export const getCreate = (): CreateObjects | undefined => {
             console.error(Constants.ErrorMessages.ShipBodyInitializationFailed);
             return;
         }
-        this.anims.create({
-            key: Constants.Animation.Names.Ship.left,
-            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.Two),
-            frameRate: Constants.FrameRate,
-            repeat: Constants.Animation.Loop
-        });
-        this.anims.create({
-            key: Constants.Animation.Names.Ship.right,
-            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.Zero),
-            frameRate: Constants.FrameRate,
-            repeat: Constants.Animation.Loop
-        });
-        this.anims.create({
-            key: Constants.Animation.Names.Ship.default,
-            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.One),
-            frameRate: Constants.FrameRate,
-            repeat: Constants.Animation.Loop
-        });
+        createShipAnimations.call(this);
 
         const laserBeamSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.LaserBeam.Name);
         laserBeamSprite.setScale(0.2, 1);
@@ -64,6 +47,27 @@ export const getCreate = (): CreateObjects | undefined => {
     return {
         create, shipFn, shipBodyFn, cursorKeysFn
     };
+
+    function createShipAnimations(this: Phaser.Scene) {
+        this.anims.create({
+            key: Constants.Animation.Names.Ship.left,
+            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.Two),
+            frameRate: Constants.FrameRate,
+            repeat: Constants.Animation.Loop
+        });
+        this.anims.create({
+            key: Constants.Animation.Names.Ship.right,
+            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.Zero),
+            frameRate: Constants.FrameRate,
+            repeat: Constants.Animation.Loop
+        });
+        this.anims.create({
+            key: Constants.Animation.Names.Ship.default,
+            frames: this.anims.generateFrameNumbers(Constants.Images.Ship.Name, Constants.Animation.FrameRanges.One),
+            frameRate: Constants.FrameRate,
+            repeat: Constants.Animation.Loop
+        });
+    }
 }
 export type CreateObjects = {
     create: SceneCreateCallback;

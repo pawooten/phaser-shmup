@@ -35,9 +35,13 @@ export const getUpdate = (createObjects: CreateObjects) => {
             return;
         }
         if (cursorKeys.down.isDown) {
-            shipBody.setVelocityY(160);
+            shipBody.setVelocityY(Constants.Physics.Speed.Ship);
             return;
         }
+        if (cursorKeys.space.isDown) {
+            // Handle space key press for firing laser beam or other actions
+        }
+
         shipBody.setVelocity(0, 0);
         ship.anims.play(Constants.Animation.Names.Ship.default);
     };
