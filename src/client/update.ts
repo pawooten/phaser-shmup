@@ -1,5 +1,7 @@
+import { CreateObjects } from "./create";
+
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
-export const getUpdate = (createObjects: any) => {
+export const getUpdate = (createObjects: CreateObjects) => {
     const update: SceneUpdateCallback = function () {
         const ship = createObjects.shipFn();
         if (!ship) {

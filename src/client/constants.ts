@@ -20,9 +20,11 @@ export const Constants = {
     },
     EnemyScale: { small: 0.5, medium: 0.75, large: 1 },
     ErrorMessages: {
+        CreateObjectsNotDefined: 'Create objects are not defined',
         ShipBodyInitializationFailed: 'Ship body initialization failed',
     },
     FrameRate: 20,
+    Physics: { Type: 'arcade', Gravity: { x: 0, y: 10 } },
     Images: {
         Sky: { Name: 'sky', Path: 'assets/gradient-sky.png' },
         Ship: { Name: 'ship', Path: 'assets/ship.png' },

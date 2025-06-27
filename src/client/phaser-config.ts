@@ -6,15 +6,18 @@ import { getUpdate } from './update';
 type GameConfig = Phaser.Types.Core.GameConfig;
 
 const createObjects = getCreate();
+if (!createObjects) {
+    throw new Error(Constants.ErrorMessages.CreateObjectsNotDefined);
+}
 const update = getUpdate(createObjects);
 const phaserConfig: GameConfig = {
     type: Phaser.AUTO,
     width: Constants.Dimensions.Game.width,
     height: Constants.Dimensions.Game.height,
     physics: {
-        default: 'arcade',
+        default: Constants.Physics.Type,
         arcade: {
-            gravity: { x: 0, y: 10 },
+            gravity: Constants.Physics.Gravity,
             debug: false
         }
     },
