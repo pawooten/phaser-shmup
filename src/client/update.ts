@@ -23,7 +23,7 @@ export const getUpdate = (createObjects: CreateObjects) => {
 
         if (cursorKeys.left.isDown) {
             ship.anims.play(Constants.Animation.Names.Ship.left, true);
-            shipBody.setVelocityX(-160);
+            shipBody.setVelocityX(-Constants.Physics.Speed.Ship);
             return;
         }
         if (cursorKeys.right.isDown) {
@@ -45,7 +45,7 @@ export const getUpdate = (createObjects: CreateObjects) => {
                 console.error(Constants.ErrorMessages.SpriteNotFound, Constants.Images.LaserBeam.Name);
                 return;
             }
-            laserBeamSprite.setPosition(ship.x, ship.y - 40);
+            laserBeamSprite.setPosition(ship.x, ship.y - Constants.Dimensions.ShipOffset);
             laserBeamSprite.visible = true;
             const laserBeamBody = laserBeamSprite.body as Phaser.Physics.Arcade.Body;
             laserBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
