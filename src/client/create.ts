@@ -1,5 +1,5 @@
 import { Constants, TriangleType } from "./constants";
-import { initializeTriangles } from "./create-helper";
+import { initializeLaserBeams, initializeTriangles } from "./create-helper";
 import { CursorKeysManager } from "./cursor-keys-manager";
 import { SpriteManager } from "./sprite-manager";
 
@@ -12,28 +12,8 @@ export const getCreate = (): SceneCreateCallback | undefined => {
         SpriteManager.add(Constants.Images.Ship.Name, ship);
         createShipAnimations.call(this);
 
-        const laserBeamLeftSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.LaserBeam.Name);
-        laserBeamLeftSprite.setScale(0.2, 1);
-        laserBeamLeftSprite.body.setAllowGravity(false);
-        laserBeamLeftSprite.setCollideWorldBounds(true);
-        laserBeamLeftSprite.visible = false;
 
-        const laserBeamRightSprite = this.physics.add.sprite(Constants.Position.Center.x, Constants.Position.Center.y, Constants.Images.LaserBeam.Name);
-        laserBeamRightSprite.setScale(0.2, 1);
-        laserBeamRightSprite.body.setAllowGravity(false);
-        laserBeamRightSprite.setCollideWorldBounds(true);
-        laserBeamRightSprite.visible = false;
-        SpriteManager.add(Constants.Images.LaserBeam.Name, [laserBeamLeftSprite, laserBeamRightSprite]);
-
-        this.anims.create({
-            key: Constants.Animation.Names.LaserBeam,
-            frames: this.anims.generateFrameNumbers(Constants.Images.LaserBeam.Name, Constants.Animation.FrameRanges.ZeroToThree),
-            frameRate: Constants.FrameRate,
-            repeat: Constants.Animation.Loop
-        });
-        laserBeamLeftSprite.anims.play(Constants.Animation.Names.LaserBeam);
-        laserBeamRightSprite.anims.play(Constants.Animation.Names.LaserBeam);
-
+        initializeLaserBeams(this);
         for (const triangleType of Object.values(TriangleType)) {
             this.anims.create({
                 key: triangleType,
