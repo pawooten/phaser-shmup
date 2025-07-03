@@ -33,7 +33,7 @@ export const Constants = {
     Images: {
         Sky: { Name: 'sky', Path: 'assets/gradient-sky.png' },
         Ship: { Name: 'ship', Path: 'assets/ship.png' },
-        LaserBeam: { Name: 'laser-beam', Path: 'assets/laser-beam.png' },
+        LaserBeam: { Names: ['laser-beam-01', 'laser-beam-02', 'laser-beam-03'], Path: 'assets/laser-beam.png' },
         Triangle: { Name: 'triangle', Path: 'assets/triangle.png' },
     },
     Position: {

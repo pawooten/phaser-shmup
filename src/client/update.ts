@@ -41,9 +41,11 @@ export const getUpdate = () => {
             return;
         }
         if (cursorKeys.space.isDown) {
-            const laserBeamSprites = SpriteManager.get<Sprite[]>(Constants.Images.LaserBeam.Name);
+            const spriteName = getSpriteName();
+            console.log(`Firing laser beam: ${spriteName}`);
+            const laserBeamSprites = SpriteManager.get<Sprite[]>(spriteName);
             if (!laserBeamSprites) {
-                console.error(Constants.ErrorMessages.SpriteNotFound, Constants.Images.LaserBeam.Name);
+                console.error(Constants.ErrorMessages.SpriteNotFound, spriteName);
                 return;
             }
             const [leftBeamSprite, rightBeamSprite] = laserBeamSprites;
@@ -61,4 +63,13 @@ export const getUpdate = () => {
         ship.anims.play(Constants.Animation.Names.Ship.default);
     };
     return update;
+}
+
+let index = 0;
+const getSpriteName = (): string => {
+    index++;
+    if (index === Constants.Images.LaserBeam.Names.length) {
+        index = 0;
+    }
+    return Constants.Images.LaserBeam.Names[index];
 }
