@@ -44,13 +44,13 @@ export const initializeLaserBeams = (scene: Phaser.Scene) => {
         SpriteManager.add(laserBeamName, [laserBeamLeftSprite, laserBeamRightSprite]);
 
         scene.anims.create({
-            key: Constants.Animation.Names.LaserBeam,
+            key: laserBeamName,
             frames: scene.anims.generateFrameNumbers(laserBeamName, Constants.Animation.FrameRanges.ZeroToThree),
             frameRate: Constants.FrameRate,
             repeat: Constants.Animation.Loop
         });
-        laserBeamLeftSprite.anims.play(Constants.Animation.Names.LaserBeam);
-        laserBeamRightSprite.anims.play(Constants.Animation.Names.LaserBeam);
+        laserBeamLeftSprite.anims.play(laserBeamName);
+        laserBeamRightSprite.anims.play(laserBeamName);
     }
 }
 
