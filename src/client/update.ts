@@ -58,12 +58,19 @@ const fireLaserBeam = (ship: Sprite, cursorKeys: CursorKeys) => {
         return;
     }
     const [leftBeamSprite, rightBeamSprite] = laserBeamSprites;
-
-    leftBeamSprite.setPosition(ship.x - Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
+    const leftBeamPosition = { x: ship.x - Constants.Dimensions.ShipOffset.x, y: ship.y - Constants.Dimensions.ShipOffset.y };
+    const rightBeamPosition = { x: ship.x + Constants.Dimensions.ShipOffset.x, y: ship.y - Constants.Dimensions.ShipOffset.y };
+    if (cursorKeys.left.isDown && !cursorKeys.right.isDown) {
+        rightBeamPosition.y -= Constants.Dimensions.ShipTurningOffset;
+    }
+    if (cursorKeys.right.isDown && !cursorKeys.left.isDown) {
+        leftBeamPosition.y -= Constants.Dimensions.ShipTurningOffset;
+    }
+    leftBeamSprite.setPosition(leftBeamPosition.x, leftBeamPosition.y);
     leftBeamSprite.visible = true;
     const leftBeamBody = leftBeamSprite.body as Body;
     leftBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
-    rightBeamSprite.setPosition(ship.x + Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
+    rightBeamSprite.setPosition(rightBeamPosition.x, rightBeamPosition.y);
     rightBeamSprite.visible = true;
     const rightBeamBody = rightBeamSprite.body as Body;
     rightBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);

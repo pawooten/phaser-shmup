@@ -16,6 +16,7 @@ export const Constants = {
         Game: { width: 800, height: 600 },
         Ship: { width: 32, height: 32 },
         ShipOffset: { x: 9, y: 18 },
+        ShipTurningOffset: 10,
         LaserBeam: { width: 16, height: 32 },
         Triangle: { width: 32, height: 32 }
     },
