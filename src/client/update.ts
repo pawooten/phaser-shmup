@@ -1,6 +1,6 @@
 import { Constants } from "./constants";
 import { CursorKeysManager } from "./cursor-keys-manager";
-import { SpriteManager } from "./sprite-manager";
+import { getSpriteName, SpriteManager } from "./sprite-manager";
 type Body = Phaser.Physics.Arcade.Body;
 type Sprite = Phaser.Physics.Arcade.Sprite;
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
@@ -40,23 +40,9 @@ export const getUpdate = () => {
             shipBody.setVelocityY(Constants.Physics.Speed.Ship);
             return;
         }
-        if (cursorKeys.space.isDown) {
-            const spriteName = getSpriteName();
-            console.log(`Firing laser beam: ${spriteName}`);
-            const laserBeamSprites = SpriteManager.get<Sprite[]>(spriteName);
-            if (!laserBeamSprites) {
-                console.error(Constants.ErrorMessages.SpriteNotFound, spriteName);
-                return;
-            }
-            const [leftBeamSprite, rightBeamSprite] = laserBeamSprites;
-            leftBeamSprite.setPosition(ship.x - Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
-            leftBeamSprite.visible = true;
-            const leftBeamBody = leftBeamSprite.body as Body;
-            leftBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
-            rightBeamSprite.setPosition(ship.x + Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
-            rightBeamSprite.visible = true;
-            const rightBeamBody = rightBeamSprite.body as Body;
-            rightBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
+        if (Phaser.Input.Keyboard.JustDown(cursorKeys.space)) {
+            fireLaserBeam(ship);
+            return;
         }
 
         shipBody.setVelocity(0, 0);
@@ -64,12 +50,21 @@ export const getUpdate = () => {
     };
     return update;
 }
-
-let index = 0;
-const getSpriteName = (): string => {
-    index++;
-    if (index === Constants.Images.LaserBeam.Names.length) {
-        index = 0;
+const fireLaserBeam = (ship: Sprite) => {
+    const spriteName = getSpriteName();
+    const laserBeamSprites = SpriteManager.get<Sprite[]>(spriteName);
+    if (!laserBeamSprites) {
+        console.error(Constants.ErrorMessages.SpriteNotFound, spriteName);
+        return;
     }
-    return Constants.Images.LaserBeam.Names[index];
-}
+    const [leftBeamSprite, rightBeamSprite] = laserBeamSprites;
+    leftBeamSprite.setPosition(ship.x - Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
+    leftBeamSprite.visible = true;
+    const leftBeamBody = leftBeamSprite.body as Body;
+    leftBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
+    rightBeamSprite.setPosition(ship.x + Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
+    rightBeamSprite.visible = true;
+    const rightBeamBody = rightBeamSprite.body as Body;
+    rightBeamBody.setVelocityY(-Constants.Physics.Speed.LaserBeam);
+
+};
