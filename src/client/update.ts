@@ -2,6 +2,7 @@ import { Constants } from "./constants";
 import { CursorKeysManager } from "./cursor-keys-manager";
 import { getSpriteName, SpriteManager } from "./sprite-manager";
 type Body = Phaser.Physics.Arcade.Body;
+type CursorKeys = Phaser.Types.Input.Keyboard.CursorKeys;
 type Sprite = Phaser.Physics.Arcade.Sprite;
 type SceneUpdateCallback = Phaser.Types.Scenes.SceneUpdateCallback;
 export const getUpdate = () => {
@@ -21,13 +22,16 @@ export const getUpdate = () => {
             console.error(Constants.ErrorMessages.CursorKeysNotDefinedInUpdate);
             return;
         }
+        if (Phaser.Input.Keyboard.JustDown(cursorKeys.space)) {
+            fireLaserBeam(ship, cursorKeys);
+        }
 
-        if (cursorKeys.left.isDown) {
+        if (cursorKeys.left.isDown && !cursorKeys.right.isDown) {
             ship.anims.play(Constants.Animation.Names.Ship.left, true);
             shipBody.setVelocityX(-Constants.Physics.Speed.Ship);
             return;
         }
-        if (cursorKeys.right.isDown) {
+        if (cursorKeys.right.isDown && !cursorKeys.left.isDown) {
             ship.anims.play(Constants.Animation.Names.Ship.right, true);
             shipBody.setVelocityX(Constants.Physics.Speed.Ship);
             return;
@@ -40,17 +44,13 @@ export const getUpdate = () => {
             shipBody.setVelocityY(Constants.Physics.Speed.Ship);
             return;
         }
-        if (Phaser.Input.Keyboard.JustDown(cursorKeys.space)) {
-            fireLaserBeam(ship);
-            return;
-        }
 
         shipBody.setVelocity(0, 0);
         ship.anims.play(Constants.Animation.Names.Ship.default);
     };
     return update;
 }
-const fireLaserBeam = (ship: Sprite) => {
+const fireLaserBeam = (ship: Sprite, cursorKeys: CursorKeys) => {
     const spriteName = getSpriteName();
     const laserBeamSprites = SpriteManager.get<Sprite[]>(spriteName);
     if (!laserBeamSprites) {
@@ -58,6 +58,7 @@ const fireLaserBeam = (ship: Sprite) => {
         return;
     }
     const [leftBeamSprite, rightBeamSprite] = laserBeamSprites;
+
     leftBeamSprite.setPosition(ship.x - Constants.Dimensions.ShipOffset.x, ship.y - Constants.Dimensions.ShipOffset.y);
     leftBeamSprite.visible = true;
     const leftBeamBody = leftBeamSprite.body as Body;
